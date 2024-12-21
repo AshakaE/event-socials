@@ -1,0 +1,38 @@
+{
+  "name": "api-service",
+  "$schema": "../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "api-service/src",
+  "projectType": "application",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "webpack-cli build",
+        "args": ["node-env=production"]
+      },
+      "configurations": {
+        "development": {
+          "args": ["node-env=development"]
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "dependsOn": ["build"],
+      "options": {
+        "buildTarget": "api-service:build",
+        "runBuildTargetDependencies": false
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "api-service:build:development"
+        },
+        "production": {
+          "buildTarget": "api-service:build:production"
+        }
+      }
+    }
+  }
+}
